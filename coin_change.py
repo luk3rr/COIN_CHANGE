@@ -7,50 +7,77 @@
 import json
 import sys
 
-COINS = [100, 50, 20, 10, 5, 2]
+from config import COINS, INFINITY
 
 
-def coin_change(total):
+def min_coins(amount, coins=COINS) -> int:
+    """
+    @brief
+        Calcula a quantidade mínima de moedas necessárias para obter o total desejado com
+        as moedas disponíveis utilizando programação dinâmica.
+        Esse problema é um dos estudados no curso de Algoritmos I (DCC206-DIG) do DCC/UFMG
+
+    @param amount
+        O valor total que se deseja obter com as moedas disponíveis
+
+    @return
+        A quantidade mínima de moedas necessárias para obter o total desejado
+        -1 se não for possível obter o total com as moedas disponíveis
+    """
+
+    # Casos bases
+    if amount < 0:
+        raise ValueError("O valor total deve ser maior ou igual a zero")
+
+    if amount == 0:
+        return 0
+
+    # Tabela de memoização
+    memo = [0 for _ in range(amount + 1)]
+
+    for i in range(1, amount + 1):
+        memo[i] = INFINITY
+
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i:
+                sub_res = memo[i - coin]
+                if sub_res != INFINITY and sub_res + 1 < memo[i]:
+                    memo[i] = sub_res + 1
+
+    return memo[amount] if memo[amount] != INFINITY else -1
+
+
+def coin_change(amount, coins=COINS):
     """
     @brief
         Calcula a quantidade mínima de moedas de cada valor necessárias para obter o total
         desejado com as moedas disponíveis
 
-    @param total
+    @param amount
         O valor total que se deseja obter com as moedas disponíveis
 
     @return
         json com a quantidade mínima de moedas de cada valor necessárias para obter o total
     """
-    solution = {coin: 0 for coin in COINS}
 
-    for coin in COINS:
-        while total >= coin:
+    # Casos bases
+    if amount < 0:
+        raise ValueError("O valor total deve ser maior ou igual a zero")
+
+    if amount == 0:
+        return {coin: 0 for coin in coins}, 0
+
+    solution = {coin: 0 for coin in coins}
+    total_coins = 0
+
+    for coin in coins:
+        while amount >= coin:
             solution[coin] += 1
-            total -= coin
+            total_coins += 1
+            amount -= coin
 
-    if total != 0:
+    if amount != 0:
         raise ValueError("Não é possível obter o total com as moedas disponíveis")
 
-    return solution
-
-
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 coin_change.py <total>")
-        sys.exit(1)
-
-    value = int(sys.argv[1])
-
-    try:
-        solution = coin_change(value)
-    except ValueError as e:
-        print(e)
-        sys.exit(1)
-
-    solution_sorted = dict(sorted(solution.items(), key=lambda x: x[0], reverse=True))
-    print(json.dumps(solution_sorted, indent=4))
-
-
-if __name__ == "__main__":
-    main()
+    return solution, total_coins
