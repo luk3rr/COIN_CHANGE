@@ -6,9 +6,9 @@
 
 import unittest
 from random import randrange
-from coin_change import coin_change, min_coins
+from coin_change.coin_change import coin_change, min_coins
 
-TEST_COINS = [10, 5, 1]
+TEST_COINS = [10, 5, 1, 3, 50]
 
 
 class CoinChangeTest(unittest.TestCase):

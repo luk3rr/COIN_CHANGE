@@ -4,10 +4,9 @@
 # Created on: July  1, 2024
 # Author: Lucas Araújo <araujolucas@dcc.ufmg.br>
 
-import json
-import sys
+from collections import OrderedDict
 
-from config import COINS, INFINITY
+from .config import COINS, INFINITY
 
 
 def min_coins(amount, coins=COINS) -> int:
@@ -31,6 +30,10 @@ def min_coins(amount, coins=COINS) -> int:
 
     if amount == 0:
         return 0
+
+    # Ordenar a lista de moedas em ordem decrescente. Isso é necessário para garantir que
+    # a solução ótima seja encontrada
+    coins.sort(reverse=True)
 
     # Tabela de memoização
     memo = [0 for _ in range(amount + 1)]
@@ -68,6 +71,10 @@ def coin_change(amount, coins=COINS):
     if amount == 0:
         return {coin: 0 for coin in coins}, 0
 
+    # Ordenar a lista de moedas em ordem decrescente. Isso é necessário para garantir que
+    # a solução ótima seja encontrada
+    coins.sort(reverse=True)
+
     solution = {coin: 0 for coin in coins}
     total_coins = 0
 
@@ -78,6 +85,10 @@ def coin_change(amount, coins=COINS):
             amount -= coin
 
     if amount != 0:
-        raise ValueError("Não é possível obter o total com as moedas disponíveis")
+        raise ValueError("Nao eh possivel obter o total com as moedas disponiveis")
 
-    return solution, total_coins
+    solution_sorted = OrderedDict(
+        sorted(solution.items(), key=lambda x: x[0], reverse=True)
+    )
+
+    return solution_sorted, total_coins

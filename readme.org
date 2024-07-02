@@ -1,1 +1,28 @@
 * Coin change problem
+Este projeto implementa uma API para calcular o troco utilizando um algoritmo de coin change.
+
+A implementação do algoritmo utilizado para resolver o problema proposto foi razoavelmente fácil, uma vez que o problema do coin change já havia sido estudado pelo autor durante a disciplina de Algoritmos I do Departamento de Ciência de Computação da UFMG.
+
+* Instruções para execução
+Para a execução do projeto, certifique-se de instalar as dependências listadas no arquivo =requirements.txt= com o seguinte comando:
+
+#+begin_src bash
+$ pip install -r requirements.txt
+#+end_src
+
+Após instalar as dependências, você pode inicializar o servidor Flask com o comando:
+#+begin_src
+$ python3 -m coin_change
+#+end_src
+
+Isso iniciará o servidor em modo de debug, permitindo que você visualize mensagens de depuração no console.
+
+Você pode testar a API utilizando ferramentas como curl ou Postman. Aqui está um exemplo de como fazer uma solicitação POST para calcular o troco:
+#+begin_src
+$ curl -X POST -H "Content-Type: application/json" -d '{"valor": 110}' http://localhost:5000/api/saque
+#+end_src
+
+Por fim, os testes implementados podem ser executados com o comando:
+#+begin_src
+$ python3 -m tests
+#+end_src
