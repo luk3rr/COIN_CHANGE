@@ -16,8 +16,15 @@ def min_coins(amount, coins=COINS) -> int:
         as moedas disponíveis utilizando programação dinâmica.
         Esse problema é um dos estudados no curso de Algoritmos I (DCC206-DIG) do DCC/UFMG
 
+        Função utilizada apenas para verificar se a quantidade de moedas obtida pela função
+        coin_change está correta
+
     @param amount
         O valor total que se deseja obter com as moedas disponíveis
+
+    @param coins
+        Lista de moedas disponíveis. O algoritmo assume que não há limite de moedas de cada
+        valor disponível
 
     @return
         A quantidade mínima de moedas necessárias para obter o total desejado
@@ -59,6 +66,10 @@ def coin_change(amount, coins=COINS):
 
     @param amount
         O valor total que se deseja obter com as moedas disponíveis
+
+    @param coins
+        Lista de moedas disponíveis. O algoritmo assume que não há limite de moedas de cada
+        valor disponível
 
     @return
         json com a quantidade mínima de moedas de cada valor necessárias para obter o total
